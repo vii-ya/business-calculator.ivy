@@ -1348,31 +1348,26 @@ Your note is stored in this browser.
    🔐 EASY PASSWORD SETTING
    =====================================================
 
-   CHANGE ONLY THIS LINE.
+  const ACCESS_PASSWORD = "1111";
 
-   Example:
-
-   const ACCESS_PASSWORD = "my123";
-
-*/
-
-const ACCESS_PASSWORD = "123456";
-
-/* =====================================================
-   PASSWORD LOGIN
-   ===================================================== */
-
-function unlockApp(){
+function checkPassword() {
 
     const enteredPassword =
-        document.getElementById(
-            "accessPassword"
-        ).value;
+        document.getElementById("passwordInput").value;
 
-    if(
-        enteredPassword === ACCESS_PASSWORD
-    ){
+    if (enteredPassword === ACCESS_PASSWORD) {
 
-        document.getElementById(
-            "login
-```
+        document.getElementById("loginScreen").style.display = "none";
+
+        document.getElementById("appContent").style.display = "block";
+
+    } else {
+
+        document.getElementById("loginMessage").textContent =
+            "❌ Wrong password. Try again.";
+
+    }
+
+}
+
+</script>

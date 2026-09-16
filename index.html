@@ -1,773 +1,431 @@
-Yes. Below is the **full single-file version**. You only need to change **one line** to set your password:
-
-```
-const ACCESS_PASSWORD = "123456";
-```
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Private Capital & Profit Calculator</title>
 
 <style>
-
-*{
-    box-sizing:border-box;
+* {
+    box-sizing: border-box;
 }
 
-body{
-    margin:0;
-    padding:24px;
-    font-family:Arial,sans-serif;
-    background:#f1f5f9;
-    color:#0f172a;
+body {
+    margin: 0;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    background: #f1f5f9;
+    color: #0f172a;
 }
 
-.container{
-    max-width:900px;
-    margin:auto;
+.container {
+    max-width: 900px;
+    margin: auto;
 }
 
-/* =====================================================
-   PASSWORD SCREEN
-   ===================================================== */
-
-#loginScreen{
-    position:fixed;
-    inset:0;
-    z-index:99999;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    padding:20px;
-
-    background:#0f172a;
+.card {
+    background: white;
+    border-radius: 12px;
+    padding: 25px;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 15px rgba(0,0,0,.08);
 }
 
-.login-box{
-    width:100%;
-    max-width:380px;
-
-    background:#ffffff;
-
-    padding:30px;
-
-    border-radius:14px;
-
-    box-shadow:
-        0 20px 60px rgba(0,0,0,.35);
-
-    text-align:center;
+h1 {
+    color: #1e3a8a;
+    margin-top: 0;
 }
 
-.login-box h2{
-    margin:0 0 10px;
-    color:#1e3a8a;
+.title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #1e3a8a;
+    margin-bottom: 18px;
+    border-bottom: 1px solid #cbd5e1;
+    padding-bottom: 10px;
 }
 
-.login-box p{
-    margin:0 0 20px;
-    color:#64748b;
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
 }
 
-.login-box input{
-    width:100%;
-
-    padding:13px;
-
-    border:2px solid #cbd5e1;
-    border-radius:7px;
-
-    font-size:16px;
-
-    margin-bottom:12px;
-
-    background:#ffffff;
-    color:#0f172a;
+.input-card {
+    background: #f8fafc;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    padding: 20px;
 }
 
-.login-box input:focus{
-    outline:none;
-    border-color:#2563eb;
+.group {
+    margin-bottom: 15px;
 }
 
-.login-button{
-    width:100%;
-
-    padding:13px;
-
-    border:0;
-    border-radius:7px;
-
-    background:#1e3a8a;
-    color:#ffffff;
-
-    font-size:16px;
-    font-weight:bold;
-
-    cursor:pointer;
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 6px;
+    font-size: 14px;
 }
 
-.login-button:hover{
-    background:#1d4ed8;
+input {
+    width: 100%;
+    padding: 11px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-size: 16px;
 }
 
-#loginMessage{
-    min-height:20px;
-
-    margin-top:12px;
-
-    color:#dc2626;
-
-    font-size:14px;
+input:focus,
+textarea:focus {
+    outline: 2px solid #2563eb;
+    outline-offset: 1px;
 }
 
-/* =====================================================
-   MAIN CARDS
-   ===================================================== */
-
-.main-card,
-.simple-calculator,
-.excel-tool,
-.notepad-tool{
-    background:#ffffff;
-
-    padding:30px;
-
-    border-radius:12px;
-
-    box-shadow:
-        0 4px 15px rgba(0,0,0,.08);
+input[readonly] {
+    background: #e2e8f0;
 }
 
-.simple-calculator,
-.excel-tool,
-.notepad-tool{
-    margin-top:25px;
+button {
+    cursor: pointer;
+    border: none;
+    border-radius: 7px;
+    font-weight: bold;
 }
 
-h1{
-    margin:0 0 20px;
-
-    color:#1e3a8a;
-
-    font-size:26px;
+.main-button {
+    width: 100%;
+    padding: 14px;
+    background: #1e3a8a;
+    color: white;
+    font-size: 17px;
 }
 
-.grid{
-    display:grid;
-
-    grid-template-columns:1fr 1fr;
-
-    gap:25px;
+.main-button:hover {
+    background: #1d4ed8;
 }
 
-.card{
-    border:1px solid #cbd5e1;
-
-    border-radius:8px;
-
-    padding:20px;
+.section {
+    font-size: 12px;
+    font-weight: bold;
+    color: #475569;
+    text-transform: uppercase;
+    margin: 15px 0 7px;
 }
 
-.input-card{
-    background:#f8fafc;
+.result {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 12px;
+    border-radius: 7px;
+    margin-bottom: 7px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
 }
 
-.title{
-    font-size:18px;
-
-    font-weight:bold;
-
-    color:#1e3a8a;
-
-    margin-bottom:18px;
-
-    padding-bottom:8px;
-
-    border-bottom:1px solid #cbd5e1;
+.value {
+    font-family: monospace;
+    font-weight: bold;
+    text-align: right;
 }
 
-.group{
-    margin-bottom:15px;
+.capital {
+    background: #fee2e2;
+    color: #991b1b;
 }
 
-label{
-    display:block;
-
-    font-weight:bold;
-
-    font-size:14px;
-
-    margin-bottom:5px;
+.revenue {
+    background: #dbeafe;
+    color: #1e3a8a;
 }
 
-input{
-    width:100%;
-
-    padding:11px;
-
-    border:1px solid #cbd5e1;
-
-    border-radius:6px;
-
-    font-size:16px;
+.profit {
+    background: #bbf7d0;
+    color: #166534;
+    font-size: 18px;
 }
 
-input:focus{
-    outline:none;
-
-    border-color:#2563eb;
+.loss {
+    background: #fee2e2;
+    color: #991b1b;
+    font-size: 18px;
 }
 
-input[readonly]{
-    background:#e2e8f0;
+.formula {
+    color: #64748b;
+    font-size: 12px;
+    margin-bottom: 12px;
 }
 
-button{
-    border:0;
 
-    border-radius:7px;
-
-    cursor:pointer;
-
-    font-weight:bold;
-}
-
-.main-button{
-    width:100%;
-
-    padding:15px;
-
-    background:#1e3a8a;
-
-    color:white;
-
-    font-size:17px;
-}
-
-.main-button:hover{
-    background:#1d4ed8;
-}
-
-/* =====================================================
-   RESULTS
-   ===================================================== */
-
-.section{
-    margin-top:15px;
-
-    margin-bottom:8px;
-
-    font-size:12px;
-
-    font-weight:bold;
-
-    color:#475569;
-
-    text-transform:uppercase;
-}
-
-.result{
-    display:flex;
-
-    justify-content:space-between;
-
-    align-items:center;
-
-    gap:10px;
-
-    padding:12px;
-
-    margin-bottom:8px;
-
-    border-radius:6px;
-
-    background:#f8fafc;
-
-    border:1px solid #e2e8f0;
-}
-
-.value{
-    font-weight:bold;
-
-    font-family:monospace;
-
-    text-align:right;
-}
-
-.capital{
-    background:#fee2e2;
-
-    color:#991b1b;
-}
-
-.revenue{
-    background:#dbeafe;
-
-    color:#1e3a8a;
-}
-
-.profit{
-    background:#bbf7d0;
-
-    color:#166534;
-
-    font-size:18px;
-}
-
-.loss{
-    background:#fee2e2;
-
-    color:#991b1b;
-
-    font-size:18px;
-}
-
-.formula{
-    color:#64748b;
-
-    font-size:12px;
-
-    margin-bottom:12px;
-}
-
-.status{
-    margin-top:10px;
-
-    font-size:13px;
-
-    color:#475569;
-}
-
-/* =====================================================
+/* =========================
    SIMPLE CALCULATOR
-   ===================================================== */
+========================= */
 
-.simple-title{
-    font-size:20px;
-
-    font-weight:bold;
-
-    color:#1e3a8a;
-
-    margin-bottom:15px;
+.calculator-box {
+    max-width: 390px;
+    margin: auto;
+    background: #e2e8f0;
+    padding: 18px;
+    border-radius: 14px;
+    border: 2px solid #cbd5e1;
 }
 
-.calculator{
-    max-width:380px;
-
-    margin:auto;
-
-    background:#e2e8f0;
-
-    padding:18px;
-
-    border-radius:14px;
-
-    border:2px solid #cbd5e1;
-
-    box-shadow:
-        0 5px 15px rgba(0,0,0,.10);
+.calc-display {
+    width: 100%;
+    height: 70px;
+    background: white;
+    color: #0f172a;
+    border: 2px solid #94a3b8;
+    border-radius: 8px;
+    font-size: 28px;
+    font-weight: bold;
+    text-align: right;
+    padding: 10px;
+    margin-bottom: 12px;
 }
 
-.calc-display{
-    width:100%;
-
-    height:75px;
-
-    background:#ffffff;
-
-    color:#0f172a;
-
-    border:2px solid #94a3b8;
-
-    border-radius:9px;
-
-    padding:10px 15px;
-
-    font-size:30px;
-
-    font-weight:bold;
-
-    text-align:right;
-
-    margin-bottom:15px;
+.calc-buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
 }
 
-.calc-buttons{
-    display:grid;
-
-    grid-template-columns:
-        repeat(4,1fr);
-
-    gap:9px;
+.calc-btn {
+    height: 55px;
+    background: white;
+    color: #0f172a;
+    border: 2px solid #cbd5e1;
+    font-size: 18px;
 }
 
-.calc-button{
-    height:58px;
-
-    font-size:19px;
-
-    font-weight:bold;
-
-    background:#ffffff;
-
-    color:#0f172a;
-
-    border:2px solid #cbd5e1;
-
-    box-shadow:
-        0 2px 3px rgba(0,0,0,.08);
+.calc-btn:hover {
+    background: #f8fafc;
 }
 
-.calc-button:hover{
-    background:#f8fafc;
+.calc-btn.operator {
+    background: #2563eb;
+    color: white;
 }
 
-.calc-button:active{
-    transform:scale(.96);
+.calc-btn.clear {
+    background: #dc2626;
+    color: white;
 }
 
-.calc-button.operator{
-    background:#2563eb;
-
-    color:#ffffff;
-
-    border-color:#1d4ed8;
+.calc-btn.equal {
+    background: #16a34a;
+    color: white;
 }
 
-.calc-button.clear{
-    background:#dc2626;
-
-    color:#ffffff;
-
-    border-color:#b91c1c;
+.zero {
+    grid-column: span 2;
 }
 
-.calc-button.equal{
-    background:#16a34a;
 
-    color:#ffffff;
-
-    border-color:#15803d;
-}
-
-.calc-button.zero{
-    grid-column:span 2;
-}
-
-.calc-note{
-    max-width:380px;
-
-    margin:12px auto 0;
-
-    color:#475569;
-
-    font-size:13px;
-
-    text-align:center;
-}
-
-/* =====================================================
+/* =========================
    EXCEL
-   ===================================================== */
+========================= */
 
-.excel-title{
-    font-size:20px;
-
-    font-weight:bold;
-
-    color:#15803d;
-
-    margin-bottom:15px;
+.excel-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
 }
 
-.excel-controls{
-    display:flex;
-
-    gap:10px;
-
-    margin-bottom:15px;
-
-    flex-wrap:wrap;
+.excel-btn {
+    padding: 10px 16px;
+    color: white;
 }
 
-.excel-button{
-    padding:10px 16px;
-
-    font-size:14px;
-
-    color:white;
+.add-row {
+    background: #15803d;
 }
 
-.add-row-button{
-    background:#15803d;
+.clear-excel {
+    background: #dc2626;
 }
 
-.clear-excel-button{
-    background:#dc2626;
+.excel-wrapper {
+    overflow-x: auto;
+    border: 1px solid #94a3b8;
 }
 
-.excel-wrapper{
-    width:100%;
-
-    overflow-x:auto;
-
-    border:1px solid #94a3b8;
-
-    border-radius:6px;
+.excel-table {
+    width: 100%;
+    min-width: 650px;
+    border-collapse: collapse;
 }
 
-.excel-table{
-    width:100%;
-
-    min-width:600px;
-
-    border-collapse:collapse;
-
-    background:white;
+.excel-table th {
+    background: #166534;
+    color: white;
+    padding: 9px;
+    border: 1px solid #14532d;
 }
 
-.excel-table th{
-    background:#166534;
-
-    color:white;
-
-    padding:9px;
-
-    border:1px solid #14532d;
-
-    font-size:13px;
-
-    text-align:center;
+.excel-table td {
+    border: 1px solid #cbd5e1;
+    padding: 0;
 }
 
-.excel-table td{
-    border:1px solid #cbd5e1;
-
-    padding:0;
-
-    height:38px;
+.excel-table td:first-child {
+    text-align: center;
+    width: 45px;
+    background: #f0fdf4;
+    font-weight: bold;
 }
 
-.excel-table td:first-child{
-    text-align:center;
-
-    width:45px;
-
-    background:#f0fdf4;
-
-    color:#166534;
-
-    font-weight:bold;
+.excel-table input {
+    border: 0;
+    border-radius: 0;
+    height: 38px;
 }
 
-.excel-table input{
-    width:100%;
-
-    height:36px;
-
-    border:0;
-
-    border-radius:0;
-
-    padding:7px;
-
-    font-size:14px;
-
-    background:white;
+.excel-table .total-cell {
+    padding: 8px;
+    text-align: right;
+    font-weight: bold;
+    color: #166534;
 }
 
-.excel-table input:focus{
-    outline:2px solid #22c55e;
-
-    outline-offset:-2px;
+.excel-table tfoot td {
+    padding: 10px;
+    background: #dcfce7;
+    font-weight: bold;
 }
 
-.excel-table .qty,
-.excel-table .price{
-    text-align:right;
+.excel-table tfoot td:last-child {
+    text-align: right;
 }
 
-.excel-table .total{
-    padding:8px;
 
-    text-align:right;
-
-    font-weight:bold;
-
-    color:#166534;
-
-    background:#f0fdf4;
-}
-
-.excel-table tfoot td{
-    background:#dcfce7;
-
-    color:#14532d;
-
-    font-weight:bold;
-
-    padding:10px;
-
-    border:1px solid #86efac;
-}
-
-.excel-table tfoot td:last-child{
-    text-align:right;
-
-    font-family:monospace;
-
-    font-size:15px;
-}
-
-.excel-help{
-    margin-top:10px;
-
-    color:#64748b;
-
-    font-size:12px;
-}
-
-/* =====================================================
+/* =========================
    NOTEPAD
-   ===================================================== */
+========================= */
 
-.notepad-title{
-    font-size:20px;
-
-    font-weight:bold;
-
-    color:#7c3aed;
-
-    margin-bottom:15px;
+.notepad {
+    background: #faf5ff;
+    border: 2px solid #ddd6fe;
+    padding: 15px;
+    border-radius: 10px;
 }
 
-.notepad{
-    background:#faf5ff;
-
-    border:2px solid #ddd6fe;
-
-    border-radius:10px;
-
-    padding:15px;
+textarea {
+    width: 100%;
+    min-height: 280px;
+    resize: vertical;
+    padding: 15px;
+    border: 2px solid #c4b5fd;
+    border-radius: 8px;
+    background: white;
+    color: #1e1b4b;
+    font-size: 15px;
+    line-height: 1.6;
 }
 
-.notepad textarea{
-    display:block;
-
-    width:100%;
-
-    min-height:280px;
-
-    resize:vertical;
-
-    padding:15px;
-
-    border:2px solid #c4b5fd;
-
-    border-radius:8px;
-
-    background:#ffffff;
-
-    color:#1e1b4b;
-
-    font-family:Arial,sans-serif;
-
-    font-size:15px;
-
-    line-height:1.6;
+.note-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 12px;
+    flex-wrap: wrap;
 }
 
-.notepad textarea:focus{
-    outline:none;
-
-    border-color:#7c3aed;
+.note-btn {
+    padding: 10px 15px;
+    color: white;
 }
 
-.notepad-buttons{
-    display:flex;
-
-    gap:10px;
-
-    flex-wrap:wrap;
-
-    margin-top:12px;
+.save-note {
+    background: #7c3aed;
 }
 
-.note-button{
-    padding:10px 16px;
-
-    color:white;
-
-    font-size:14px;
+.clear-note {
+    background: #dc2626;
 }
 
-.save-note{
-    background:#7c3aed;
+.download-note {
+    background: #2563eb;
 }
 
-.clear-note{
-    background:#dc2626;
+
+/* =========================
+   LOGIN
+========================= */
+
+#loginScreen {
+    position: fixed;
+    inset: 0;
+    background: #0f172a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999999;
+    padding: 20px;
 }
 
-.download-note{
-    background:#2563eb;
+.login-box {
+    width: 100%;
+    max-width: 380px;
+    background: white;
+    padding: 30px;
+    border-radius: 14px;
+    text-align: center;
+    box-shadow: 0 15px 50px rgba(0,0,0,.4);
 }
 
-.note-status{
-    margin-top:10px;
-
-    font-size:13px;
-
-    color:#64748b;
+.login-box h2 {
+    color: #1e3a8a;
+    margin-top: 0;
 }
 
-/* =====================================================
-   MOBILE
-   ===================================================== */
+.login-box input {
+    margin: 10px 0;
+}
 
-@media(max-width:700px){
+.login-button {
+    width: 100%;
+    padding: 13px;
+    background: #1e3a8a;
+    color: white;
+    font-size: 16px;
+}
 
-    body{
-        padding:10px;
+.login-button:hover {
+    background: #1d4ed8;
+}
+
+#loginMessage {
+    min-height: 20px;
+    color: #dc2626;
+    font-weight: bold;
+}
+
+@media(max-width:700px) {
+    body {
+        padding: 10px;
     }
 
-    .main-card,
-    .simple-calculator,
-    .excel-tool,
-    .notepad-tool{
-        padding:18px;
+    .grid {
+        grid-template-columns: 1fr;
     }
 
-    .grid{
-        grid-template-columns:1fr;
+    .card {
+        padding: 18px;
     }
-
-    .calc-button{
-        height:55px;
-    }
-
-    .calc-display{
-        font-size:26px;
-    }
-
 }
-
 </style>
 </head>
 
 <body>
 
+
 <!-- =====================================================
-     PASSWORD LOGIN
-     ===================================================== -->
+     LOGIN SCREEN
+===================================================== -->
 
 <div id="loginScreen">
 
@@ -775,64 +433,60 @@ button{
 
         <h2>🔐 Private Calculator</h2>
 
-        <p>
-            Enter your password to continue.
-        </p>
+        <p>Enter your password to continue.</p>
 
         <input
             type="password"
-            id="accessPassword"
+            id="passwordInput"
             placeholder="Enter password"
             autocomplete="off"
         >
 
         <button
+            type="button"
             class="login-button"
-            onclick="unlockApp()">
-
-            🔓 Unlock
-
+            id="loginButton"
+        >
+            🔓 Login
         </button>
 
-        <div id="loginMessage"></div>
+        <p id="loginMessage"></p>
 
     </div>
 
 </div>
 
-<!-- =====================================================
-     APP
-     ===================================================== -->
 
-<div
-    id="appContent"
-    style="display:none;">
+<!-- =====================================================
+     APPLICATION
+===================================================== -->
+
+<div id="appContent" style="display:none;">
 
 <div class="container">
 
+
 <!-- =====================================================
      CAPITAL & PROFIT
-     ===================================================== -->
+===================================================== -->
 
-<div class="main-card">
+<div class="card">
 
-<h1>
-📊 Capital & Profit Calculator
-</h1>
+<h1>📊 Capital & Profit Calculator</h1>
 
 <div class="grid">
 
-<div class="card input-card">
+
+<div class="input-card">
 
 <div class="title">
 1. Enter Your Numbers
 </div>
 
+
 <div class="group">
 
-<label>
-Total Fixed Costs ($)
-</label>
+<label>Fixed Costs ($)</label>
 
 <input
 type="number"
@@ -843,11 +497,10 @@ step="0.01">
 
 </div>
 
+
 <div class="group">
 
-<label>
-Selling Price per Unit ($)
-</label>
+<label>Selling Price per Unit ($)</label>
 
 <input
 type="number"
@@ -858,11 +511,10 @@ step="0.01">
 
 </div>
 
+
 <div class="group">
 
-<label>
-Variable Cost per Unit ($)
-</label>
+<label>Variable Cost per Unit ($)</label>
 
 <input
 type="number"
@@ -873,11 +525,10 @@ step="0.01">
 
 </div>
 
+
 <div class="group">
 
-<label>
-Target Total Units to Sell
-</label>
+<label>Target Units to Sell</label>
 
 <input
 type="number"
@@ -888,11 +539,10 @@ step="1">
 
 </div>
 
+
 <div class="group">
 
-<label>
-Break-Even Units
-</label>
+<label>Break-Even Units</label>
 
 <input
 type="text"
@@ -902,11 +552,10 @@ value="0 Units">
 
 </div>
 
+
 <div class="group">
 
-<label>
-Extra Units After Break-Even
-</label>
+<label>Extra Units After Break-Even</label>
 
 <input
 type="text"
@@ -916,28 +565,25 @@ value="0 Units">
 
 </div>
 
+
 <button
+type="button"
 class="main-button"
-id="calculate">
+id="calculateButton">
 
 🚀 Start Calculate
 
 </button>
 
-<div
-class="status"
-id="status">
 </div>
 
-</div>
 
-<!-- RESULTS -->
-
-<div class="card">
+<div>
 
 <div class="title">
 2. Calculation Results
 </div>
+
 
 <div class="section">
 Capital Required
@@ -945,9 +591,7 @@ Capital Required
 
 <div class="result capital">
 
-<strong>
-Total Money to Prepare
-</strong>
+<strong>Total Money to Prepare</strong>
 
 <span
 class="value"
@@ -958,8 +602,9 @@ $0.00
 </div>
 
 <div class="formula">
-Fixed Costs + (Variable Cost × Units)
+Fixed Costs + Variable Costs
 </div>
+
 
 <div class="section">
 Revenue
@@ -979,9 +624,6 @@ $0.00
 
 </div>
 
-<div class="formula">
-Break-Even Units × Selling Price
-</div>
 
 <div class="result">
 
@@ -997,9 +639,6 @@ $0.00
 
 </div>
 
-<div class="formula">
-Extra Units × Selling Price
-</div>
 
 <div class="section">
 Final Results
@@ -1007,9 +646,7 @@ Final Results
 
 <div class="result revenue">
 
-<strong>
-Total Revenue
-</strong>
+<strong>Total Revenue</strong>
 
 <span
 class="value"
@@ -1019,17 +656,12 @@ $0.00
 
 </div>
 
-<div class="formula">
-Selling Price × Total Units
-</div>
 
 <div
 class="result profit"
 id="profitBox">
 
-<strong>
-Final Net Profit
-</strong>
+<strong>Final Net Profit</strong>
 
 <span
 class="value"
@@ -1043,23 +675,31 @@ $0.00
 Total Revenue − Variable Costs − Fixed Costs
 </div>
 
+
+<div
+id="calculationStatus"
+style="color:#475569;font-size:13px;margin-top:10px;">
 </div>
 
 </div>
 
 </div>
+
+</div>
+
 
 <!-- =====================================================
      SIMPLE CALCULATOR
-     ===================================================== -->
+===================================================== -->
 
-<div class="simple-calculator">
+<div class="card">
 
-<div class="simple-title">
+<div class="title">
 🧮 Simple Calculator
 </div>
 
-<div class="calculator">
+
+<div class="calculator-box">
 
 <input
 type="text"
@@ -1068,118 +708,124 @@ class="calc-display"
 value="0"
 readonly>
 
+
 <div class="calc-buttons">
 
+
 <button
-class="calc-button clear"
+class="calc-btn clear"
 onclick="clearCalc()">
 AC
 </button>
 
 <button
-class="calc-button"
+class="calc-btn"
 onclick="deleteLast()">
 DEL
 </button>
 
 <button
-class="calc-button operator"
+class="calc-btn operator"
 onclick="percent()">
 %
 </button>
 
 <button
-class="calc-button operator"
+class="calc-btn operator"
 onclick="operator('/')">
 ÷
 </button>
 
+
 <button
-class="calc-button"
+class="calc-btn"
 onclick="numberButton('7')">
 7
 </button>
 
 <button
-class="calc-button"
+class="calc-btn"
 onclick="numberButton('8')">
 8
 </button>
 
 <button
-class="calc-button"
+class="calc-btn"
 onclick="numberButton('9')">
 9
 </button>
 
 <button
-class="calc-button operator"
+class="calc-btn operator"
 onclick="operator('*')">
 ×
 </button>
 
+
 <button
-class="calc-button"
+class="calc-btn"
 onclick="numberButton('4')">
 4
 </button>
 
 <button
-class="calc-button"
+class="calc-btn"
 onclick="numberButton('5')">
 5
 </button>
 
 <button
-class="calc-button"
+class="calc-btn"
 onclick="numberButton('6')">
 6
 </button>
 
 <button
-class="calc-button operator"
+class="calc-btn operator"
 onclick="operator('-')">
 −
 </button>
 
+
 <button
-class="calc-button"
+class="calc-btn"
 onclick="numberButton('1')">
 1
 </button>
 
 <button
-class="calc-button"
+class="calc-btn"
 onclick="numberButton('2')">
 2
 </button>
 
 <button
-class="calc-button"
+class="calc-btn"
 onclick="numberButton('3')">
 3
 </button>
 
 <button
-class="calc-button operator"
+class="calc-btn operator"
 onclick="operator('+')">
 +
 </button>
 
+
 <button
-class="calc-button zero"
+class="calc-btn zero"
 onclick="numberButton('0')">
 0
 </button>
 
 <button
-class="calc-button"
+class="calc-btn"
 onclick="decimal()">
 .
 </button>
 
 <button
-class="calc-button equal"
+class="calc-btn equal"
 onclick="equal()">
 =
 </button>
@@ -1188,41 +834,38 @@ onclick="equal()">
 
 </div>
 
-<div class="calc-note">
-Basic calculator: + − × ÷ %
 </div>
 
-</div>
 
 <!-- =====================================================
-     EXCEL
-     ===================================================== -->
+     SMALL EXCEL
+===================================================== -->
 
-<div class="excel-tool">
+<div class="card">
 
-<div class="excel-title">
-📗 Small Excel Calculator
+<div class="title">
+📗 Small Excel
 </div>
+
 
 <div class="excel-controls">
 
 <button
-class="excel-button add-row-button"
+type="button"
+class="excel-btn add-row"
 onclick="addExcelRow()">
-
 ＋ Add Row
-
 </button>
 
 <button
-class="excel-button clear-excel-button"
+type="button"
+class="excel-btn clear-excel"
 onclick="clearExcel()">
-
 🗑 Clear Excel
-
 </button>
 
 </div>
+
 
 <div class="excel-wrapper">
 
@@ -1231,17 +874,11 @@ onclick="clearExcel()">
 <thead>
 
 <tr>
-
 <th>#</th>
-
 <th>Item</th>
-
 <th>Quantity</th>
-
 <th>Price</th>
-
 <th>Total</th>
-
 </tr>
 
 </thead>
@@ -1269,109 +906,964 @@ $0.00
 
 </div>
 
-<div class="excel-help">
-Enter quantity and price. Row totals and grand total calculate automatically.
 </div>
 
-</div>
 
 <!-- =====================================================
      NOTEPAD
-     ===================================================== -->
+===================================================== -->
 
-<div class="notepad-tool">
+<div class="card">
 
-<div class="notepad-title">
+<div class="title">
 📝 Notepad
 </div>
+
 
 <div class="notepad">
 
 <textarea
 id="noteArea"
-placeholder="Write your notes here...
+placeholder="Write your notes here... You can type + - * / = normally."></textarea>
 
-You can type:
-+ - * / = %
-Numbers
-Letters
-Symbols
-Anything you want."></textarea>
 
-<div class="notepad-buttons">
+<div class="note-buttons">
 
 <button
-class="note-button save-note"
+type="button"
+class="note-btn save-note"
 onclick="saveNote()">
-
 💾 Save Note
-
 </button>
 
 <button
-class="note-button clear-note"
+type="button"
+class="note-btn clear-note"
 onclick="clearNote()">
-
 🗑 Clear Note
-
 </button>
 
 <button
-class="note-button download-note"
+type="button"
+class="note-btn download-note"
 onclick="downloadNote()">
-
 ⬇ Download TXT
-
 </button>
 
 </div>
 
-<div
-class="note-status"
-id="noteStatus">
-
-Your note is stored in this browser.
-
-</div>
-
-</div>
-
-</div>
+<p
+id="noteStatus"
+style="color:#64748b;font-size:13px;">
+</p>
 
 </div>
 
 </div>
 
 
+</div>
 
-/* =====================================================
-   🔐 EASY PASSWORD SETTING
-   =====================================================
+</div>
+
 
 <script>
 
+/* =====================================================
+   PASSWORD LOGIN
+===================================================== */
+
 const ACCESS_PASSWORD = "123456";
+
 
 function checkPassword() {
 
     const enteredPassword =
         document.getElementById("passwordInput").value;
 
+    const message =
+        document.getElementById("loginMessage");
+
+
     if (enteredPassword === ACCESS_PASSWORD) {
 
-        document.getElementById("loginScreen").style.display = "none";
+        document.getElementById("loginScreen").style.display =
+            "none";
 
-        document.getElementById("appContent").style.display = "block";
+        document.getElementById("appContent").style.display =
+            "block";
+
+        message.textContent = "";
 
     } else {
 
-        document.getElementById("loginMessage").textContent =
-            "❌ Wrong password. Try again.";
+        message.textContent =
+            "❌ Incorrect password.";
 
     }
 
 }
 
+
+document
+.getElementById("loginButton")
+.addEventListener("click", checkPassword);
+
+
+document
+.getElementById("passwordInput")
+.addEventListener("keydown", function(event) {
+
+    if (event.key === "Enter") {
+        checkPassword();
+    }
+
+});
+
+
+/* =====================================================
+   CAPITAL & PROFIT CALCULATOR
+===================================================== */
+
+function numberValue(id) {
+
+    const value =
+        parseFloat(
+            document.getElementById(id).value
+        );
+
+    if (!Number.isFinite(value) || value < 0) {
+        return 0;
+    }
+
+    return value;
+}
+
+
+function money(value) {
+
+    return value.toLocaleString(
+        "en-US",
+        {
+            style: "currency",
+            currency: "USD",
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        }
+    );
+
+}
+
+
+function calculateBusiness() {
+
+    const fixedCosts =
+        numberValue("fixedCosts");
+
+    const price =
+        numberValue("price");
+
+    const variableCost =
+        numberValue("variableCost");
+
+    const units =
+        numberValue("units");
+
+
+    const contributionMargin =
+        price - variableCost;
+
+
+    if (contributionMargin <= 0) {
+
+        document.getElementById("breakEven").value =
+            "Not Achievable";
+
+        document.getElementById("extraUnits").value =
+            "0 Units";
+
+        document.getElementById("capital").textContent =
+            "$0.00";
+
+        document.getElementById("breakEvenRevenue").textContent =
+            "$0.00";
+
+        document.getElementById("extraRevenue").textContent =
+            "$0.00";
+
+        document.getElementById("totalRevenue").textContent =
+            "$0.00";
+
+        document.getElementById("netProfit").textContent =
+            "$0.00";
+
+        document.getElementById("profitBox").className =
+            "result loss";
+
+        document.getElementById("calculationStatus").textContent =
+            "Selling price must be greater than variable cost.";
+
+        return;
+    }
+
+
+    const breakEvenUnits =
+        Math.ceil(
+            fixedCosts / contributionMargin
+        );
+
+
+    const extraUnits =
+        Math.max(
+            0,
+            units - breakEvenUnits
+        );
+
+
+    const totalVariableCosts =
+        variableCost * units;
+
+
+    const totalCapital =
+        fixedCosts + totalVariableCosts;
+
+
+    const totalRevenue =
+        price * units;
+
+
+    const breakEvenRevenue =
+        breakEvenUnits * price;
+
+
+    const extraRevenue =
+        extraUnits * price;
+
+
+    const netProfit =
+        totalRevenue -
+        totalVariableCosts -
+        fixedCosts;
+
+
+    document.getElementById("breakEven").value =
+        breakEvenUnits.toLocaleString() +
+        " Units";
+
+
+    document.getElementById("extraUnits").value =
+        extraUnits.toLocaleString() +
+        " Units";
+
+
+    document.getElementById("capital").textContent =
+        money(totalCapital);
+
+
+    document.getElementById("breakEvenRevenue").textContent =
+        money(breakEvenRevenue);
+
+
+    document.getElementById("extraRevenue").textContent =
+        money(extraRevenue);
+
+
+    document.getElementById("totalRevenue").textContent =
+        money(totalRevenue);
+
+
+    document.getElementById("netProfit").textContent =
+        money(netProfit);
+
+
+    if (netProfit >= 0) {
+
+        document.getElementById("profitBox").className =
+            "result profit";
+
+    } else {
+
+        document.getElementById("profitBox").className =
+            "result loss";
+
+    }
+
+
+    document.getElementById("calculationStatus").textContent =
+        "✅ Calculation completed.";
+
+}
+
+
+document
+.getElementById("calculateButton")
+.addEventListener(
+    "click",
+    calculateBusiness
+);
+
+
+[
+    "fixedCosts",
+    "price",
+    "variableCost",
+    "units"
+].forEach(function(id) {
+
+    document
+        .getElementById(id)
+        .addEventListener(
+            "input",
+            calculateBusiness
+        );
+
+});
+
+
+/* =====================================================
+   SIMPLE CALCULATOR
+===================================================== */
+
+let calcCurrent = "0";
+let calcFirst = null;
+let calcOperator = null;
+let calcWaiting = false;
+
+
+function updateCalc() {
+
+    document.getElementById("calcDisplay").value =
+        calcCurrent;
+
+}
+
+
+function numberButton(number) {
+
+    if (calcWaiting) {
+
+        calcCurrent = number;
+        calcWaiting = false;
+
+    } else {
+
+        if (calcCurrent === "0") {
+
+            calcCurrent = number;
+
+        } else {
+
+            calcCurrent += number;
+
+        }
+
+    }
+
+    updateCalc();
+
+}
+
+
+function decimal() {
+
+    if (calcWaiting) {
+
+        calcCurrent = "0.";
+        calcWaiting = false;
+
+    } else if (!calcCurrent.includes(".")) {
+
+        calcCurrent += ".";
+
+    }
+
+    updateCalc();
+
+}
+
+
+function operator(symbol) {
+
+    const value =
+        parseFloat(calcCurrent);
+
+    if (!Number.isFinite(value)) {
+        return;
+    }
+
+
+    if (calcFirst === null) {
+
+        calcFirst = value;
+
+    } else if (calcOperator !== null) {
+
+        const result =
+            doOperation(
+                calcFirst,
+                value,
+                calcOperator
+            );
+
+        if (result === null) {
+
+            calcCurrent = "Error";
+            calcFirst = null;
+            calcOperator = null;
+            calcWaiting = true;
+
+            updateCalc();
+
+            return;
+        }
+
+        calcCurrent =
+            formatCalcNumber(result);
+
+        calcFirst = result;
+    }
+
+
+    calcOperator = symbol;
+    calcWaiting = true;
+
+    updateCalc();
+
+}
+
+
+function doOperation(a, b, symbol) {
+
+    if (symbol === "+") {
+        return a + b;
+    }
+
+    if (symbol === "-") {
+        return a - b;
+    }
+
+    if (symbol === "*") {
+        return a * b;
+    }
+
+    if (symbol === "/") {
+
+        if (b === 0) {
+            return null;
+        }
+
+        return a / b;
+    }
+
+    return b;
+
+}
+
+
+function equal() {
+
+    if (
+        calcFirst === null ||
+        calcOperator === null
+    ) {
+        return;
+    }
+
+
+    const second =
+        parseFloat(calcCurrent);
+
+    if (!Number.isFinite(second)) {
+        return;
+    }
+
+
+    const result =
+        doOperation(
+            calcFirst,
+            second,
+            calcOperator
+        );
+
+
+    if (result === null) {
+
+        calcCurrent = "Error";
+
+    } else {
+
+        calcCurrent =
+            formatCalcNumber(result);
+
+    }
+
+
+    calcFirst = null;
+    calcOperator = null;
+    calcWaiting = true;
+
+    updateCalc();
+
+}
+
+
+function percent() {
+
+    const value =
+        parseFloat(calcCurrent);
+
+    if (!Number.isFinite(value)) {
+        return;
+    }
+
+    calcCurrent =
+        formatCalcNumber(value / 100);
+
+    updateCalc();
+
+}
+
+
+function deleteLast() {
+
+    if (
+        calcCurrent === "Error" ||
+        calcWaiting
+    ) {
+        return;
+    }
+
+
+    if (calcCurrent.length <= 1) {
+
+        calcCurrent = "0";
+
+    } else {
+
+        calcCurrent =
+            calcCurrent.slice(0, -1);
+
+    }
+
+
+    updateCalc();
+
+}
+
+
+function clearCalc() {
+
+    calcCurrent = "0";
+    calcFirst = null;
+    calcOperator = null;
+    calcWaiting = false;
+
+    updateCalc();
+
+}
+
+
+function formatCalcNumber(value) {
+
+    if (!Number.isFinite(value)) {
+        return "Error";
+    }
+
+    return String(
+        Math.round(
+            (value + Number.EPSILON) *
+            100000000
+        ) / 100000000
+    );
+
+}
+
+
+/* Keyboard calculator */
+
+document.addEventListener(
+    "keydown",
+    function(event) {
+
+        const active =
+            document.activeElement;
+
+
+        /*
+         * IMPORTANT:
+         * Do NOT capture keyboard keys while
+         * user is typing in an input or Notepad.
+         */
+
+        if (
+            active &&
+            (
+                active.tagName === "INPUT" ||
+                active.tagName === "TEXTAREA" ||
+                active.tagName === "SELECT"
+            )
+        ) {
+            return;
+        }
+
+
+        const key = event.key;
+
+
+        if (key >= "0" && key <= "9") {
+
+            numberButton(key);
+
+        } else if (key === ".") {
+
+            decimal();
+
+        } else if (
+            key === "+" ||
+            key === "-" ||
+            key === "*" ||
+            key === "/"
+        ) {
+
+            operator(key);
+
+        } else if (key === "%") {
+
+            percent();
+
+        } else if (
+            key === "Enter" ||
+            key === "="
+        ) {
+
+            event.preventDefault();
+            equal();
+
+        } else if (key === "Backspace") {
+
+            deleteLast();
+
+        } else if (key === "Escape") {
+
+            clearCalc();
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   SMALL EXCEL
+===================================================== */
+
+let excelRowNumber = 0;
+
+
+function createExcelRow() {
+
+    excelRowNumber++;
+
+
+    const row =
+        document.createElement("tr");
+
+
+    row.innerHTML = `
+
+        <td>${excelRowNumber}</td>
+
+        <td>
+            <input
+                type="text"
+                class="item"
+                placeholder="Item">
+        </td>
+
+        <td>
+            <input
+                type="number"
+                class="qty"
+                min="0"
+                step="1">
+        </td>
+
+        <td>
+            <input
+                type="number"
+                class="price"
+                min="0"
+                step="0.01">
+        </td>
+
+        <td class="total-cell">
+            $0.00
+        </td>
+
+    `;
+
+
+    row
+        .querySelector(".qty")
+        .addEventListener(
+            "input",
+            calculateExcel
+        );
+
+
+    row
+        .querySelector(".price")
+        .addEventListener(
+            "input",
+            calculateExcel
+        );
+
+
+    return row;
+
+}
+
+
+function addExcelRow() {
+
+    document
+        .getElementById("excelBody")
+        .appendChild(
+            createExcelRow()
+        );
+
+}
+
+
+function calculateExcel() {
+
+    const rows =
+        document.querySelectorAll(
+            "#excelBody tr"
+        );
+
+
+    let grandTotal = 0;
+
+
+    rows.forEach(function(row) {
+
+        const quantity =
+            parseFloat(
+                row.querySelector(".qty").value
+            ) || 0;
+
+
+        const price =
+            parseFloat(
+                row.querySelector(".price").value
+            ) || 0;
+
+
+        const total =
+            quantity * price;
+
+
+        row.querySelector(
+            ".total-cell"
+        ).textContent =
+            money(total);
+
+
+        grandTotal += total;
+
+    });
+
+
+    document.getElementById(
+        "grandTotal"
+    ).textContent =
+        money(grandTotal);
+
+}
+
+
+function clearExcel() {
+
+    const rows =
+        document.querySelectorAll(
+            "#excelBody tr"
+        );
+
+
+    rows.forEach(function(row) {
+
+        row.querySelector(".item").value = "";
+        row.querySelector(".qty").value = "";
+        row.querySelector(".price").value = "";
+
+    });
+
+
+    calculateExcel();
+
+}
+
+
+/* Create first 10 rows */
+
+for (
+    let i = 0;
+    i < 10;
+    i++
+) {
+
+    addExcelRow();
+
+}
+
+
+/* =====================================================
+   NOTEPAD
+===================================================== */
+
+const NOTE_KEY =
+    "privateCalculatorNote";
+
+
+function saveNote() {
+
+    const note =
+        document.getElementById(
+            "noteArea"
+        ).value;
+
+
+    localStorage.setItem(
+        NOTE_KEY,
+        note
+    );
+
+
+    document.getElementById(
+        "noteStatus"
+    ).textContent =
+        "✅ Note saved.";
+
+}
+
+
+function clearNote() {
+
+    document.getElementById(
+        "noteArea"
+    ).value = "";
+
+
+    localStorage.removeItem(
+        NOTE_KEY
+    );
+
+
+    document.getElementById(
+        "noteStatus"
+    ).textContent =
+        "🗑 Note cleared.";
+
+}
+
+
+function downloadNote() {
+
+    const note =
+        document.getElementById(
+            "noteArea"
+        ).value;
+
+
+    const blob =
+        new Blob(
+            [note],
+            {
+                type: "text/plain"
+            }
+        );
+
+
+    const url =
+        URL.createObjectURL(blob);
+
+
+    const link =
+        document.createElement("a");
+
+
+    link.href = url;
+    link.download = "my-notes.txt";
+
+
+    document.body.appendChild(link);
+
+    link.click();
+
+    document.body.removeChild(link);
+
+
+    URL.revokeObjectURL(url);
+
+
+    document.getElementById(
+        "noteStatus"
+    ).textContent =
+        "⬇ Note downloaded.";
+
+}
+
+
+/* Load saved note */
+
+const savedNote =
+    localStorage.getItem(
+        NOTE_KEY
+    );
+
+
+if (savedNote !== null) {
+
+    document.getElementById(
+        "noteArea"
+    ).value =
+        savedNote;
+
+}
+
+
+/* Auto-save note */
+
+document.getElementById(
+    "noteArea"
+).addEventListener(
+    "input",
+    function() {
+
+        localStorage.setItem(
+            NOTE_KEY,
+            this.value
+        );
+
+        document.getElementById(
+            "noteStatus"
+        ).textContent =
+            "💾 Automatically saved.";
+
+    }
+);
+
+
+/* =====================================================
+   INITIAL CALCULATION
+===================================================== */
+
+calculateBusiness();
+updateCalc();
+calculateExcel();
+
 </script>
 
-
+</body>
+</html>

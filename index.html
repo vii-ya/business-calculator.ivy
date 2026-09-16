@@ -1,0 +1,1378 @@
+Yes. Below is the **full single-file version**. You only need to change **one line** to set your password:
+
+```
+const ACCESS_PASSWORD = "123456";
+```
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Private Capital & Profit Calculator</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    padding:24px;
+    font-family:Arial,sans-serif;
+    background:#f1f5f9;
+    color:#0f172a;
+}
+
+.container{
+    max-width:900px;
+    margin:auto;
+}
+
+/* =====================================================
+   PASSWORD SCREEN
+   ===================================================== */
+
+#loginScreen{
+    position:fixed;
+    inset:0;
+    z-index:99999;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    padding:20px;
+
+    background:#0f172a;
+}
+
+.login-box{
+    width:100%;
+    max-width:380px;
+
+    background:#ffffff;
+
+    padding:30px;
+
+    border-radius:14px;
+
+    box-shadow:
+        0 20px 60px rgba(0,0,0,.35);
+
+    text-align:center;
+}
+
+.login-box h2{
+    margin:0 0 10px;
+    color:#1e3a8a;
+}
+
+.login-box p{
+    margin:0 0 20px;
+    color:#64748b;
+}
+
+.login-box input{
+    width:100%;
+
+    padding:13px;
+
+    border:2px solid #cbd5e1;
+    border-radius:7px;
+
+    font-size:16px;
+
+    margin-bottom:12px;
+
+    background:#ffffff;
+    color:#0f172a;
+}
+
+.login-box input:focus{
+    outline:none;
+    border-color:#2563eb;
+}
+
+.login-button{
+    width:100%;
+
+    padding:13px;
+
+    border:0;
+    border-radius:7px;
+
+    background:#1e3a8a;
+    color:#ffffff;
+
+    font-size:16px;
+    font-weight:bold;
+
+    cursor:pointer;
+}
+
+.login-button:hover{
+    background:#1d4ed8;
+}
+
+#loginMessage{
+    min-height:20px;
+
+    margin-top:12px;
+
+    color:#dc2626;
+
+    font-size:14px;
+}
+
+/* =====================================================
+   MAIN CARDS
+   ===================================================== */
+
+.main-card,
+.simple-calculator,
+.excel-tool,
+.notepad-tool{
+    background:#ffffff;
+
+    padding:30px;
+
+    border-radius:12px;
+
+    box-shadow:
+        0 4px 15px rgba(0,0,0,.08);
+}
+
+.simple-calculator,
+.excel-tool,
+.notepad-tool{
+    margin-top:25px;
+}
+
+h1{
+    margin:0 0 20px;
+
+    color:#1e3a8a;
+
+    font-size:26px;
+}
+
+.grid{
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:25px;
+}
+
+.card{
+    border:1px solid #cbd5e1;
+
+    border-radius:8px;
+
+    padding:20px;
+}
+
+.input-card{
+    background:#f8fafc;
+}
+
+.title{
+    font-size:18px;
+
+    font-weight:bold;
+
+    color:#1e3a8a;
+
+    margin-bottom:18px;
+
+    padding-bottom:8px;
+
+    border-bottom:1px solid #cbd5e1;
+}
+
+.group{
+    margin-bottom:15px;
+}
+
+label{
+    display:block;
+
+    font-weight:bold;
+
+    font-size:14px;
+
+    margin-bottom:5px;
+}
+
+input{
+    width:100%;
+
+    padding:11px;
+
+    border:1px solid #cbd5e1;
+
+    border-radius:6px;
+
+    font-size:16px;
+}
+
+input:focus{
+    outline:none;
+
+    border-color:#2563eb;
+}
+
+input[readonly]{
+    background:#e2e8f0;
+}
+
+button{
+    border:0;
+
+    border-radius:7px;
+
+    cursor:pointer;
+
+    font-weight:bold;
+}
+
+.main-button{
+    width:100%;
+
+    padding:15px;
+
+    background:#1e3a8a;
+
+    color:white;
+
+    font-size:17px;
+}
+
+.main-button:hover{
+    background:#1d4ed8;
+}
+
+/* =====================================================
+   RESULTS
+   ===================================================== */
+
+.section{
+    margin-top:15px;
+
+    margin-bottom:8px;
+
+    font-size:12px;
+
+    font-weight:bold;
+
+    color:#475569;
+
+    text-transform:uppercase;
+}
+
+.result{
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:10px;
+
+    padding:12px;
+
+    margin-bottom:8px;
+
+    border-radius:6px;
+
+    background:#f8fafc;
+
+    border:1px solid #e2e8f0;
+}
+
+.value{
+    font-weight:bold;
+
+    font-family:monospace;
+
+    text-align:right;
+}
+
+.capital{
+    background:#fee2e2;
+
+    color:#991b1b;
+}
+
+.revenue{
+    background:#dbeafe;
+
+    color:#1e3a8a;
+}
+
+.profit{
+    background:#bbf7d0;
+
+    color:#166534;
+
+    font-size:18px;
+}
+
+.loss{
+    background:#fee2e2;
+
+    color:#991b1b;
+
+    font-size:18px;
+}
+
+.formula{
+    color:#64748b;
+
+    font-size:12px;
+
+    margin-bottom:12px;
+}
+
+.status{
+    margin-top:10px;
+
+    font-size:13px;
+
+    color:#475569;
+}
+
+/* =====================================================
+   SIMPLE CALCULATOR
+   ===================================================== */
+
+.simple-title{
+    font-size:20px;
+
+    font-weight:bold;
+
+    color:#1e3a8a;
+
+    margin-bottom:15px;
+}
+
+.calculator{
+    max-width:380px;
+
+    margin:auto;
+
+    background:#e2e8f0;
+
+    padding:18px;
+
+    border-radius:14px;
+
+    border:2px solid #cbd5e1;
+
+    box-shadow:
+        0 5px 15px rgba(0,0,0,.10);
+}
+
+.calc-display{
+    width:100%;
+
+    height:75px;
+
+    background:#ffffff;
+
+    color:#0f172a;
+
+    border:2px solid #94a3b8;
+
+    border-radius:9px;
+
+    padding:10px 15px;
+
+    font-size:30px;
+
+    font-weight:bold;
+
+    text-align:right;
+
+    margin-bottom:15px;
+}
+
+.calc-buttons{
+    display:grid;
+
+    grid-template-columns:
+        repeat(4,1fr);
+
+    gap:9px;
+}
+
+.calc-button{
+    height:58px;
+
+    font-size:19px;
+
+    font-weight:bold;
+
+    background:#ffffff;
+
+    color:#0f172a;
+
+    border:2px solid #cbd5e1;
+
+    box-shadow:
+        0 2px 3px rgba(0,0,0,.08);
+}
+
+.calc-button:hover{
+    background:#f8fafc;
+}
+
+.calc-button:active{
+    transform:scale(.96);
+}
+
+.calc-button.operator{
+    background:#2563eb;
+
+    color:#ffffff;
+
+    border-color:#1d4ed8;
+}
+
+.calc-button.clear{
+    background:#dc2626;
+
+    color:#ffffff;
+
+    border-color:#b91c1c;
+}
+
+.calc-button.equal{
+    background:#16a34a;
+
+    color:#ffffff;
+
+    border-color:#15803d;
+}
+
+.calc-button.zero{
+    grid-column:span 2;
+}
+
+.calc-note{
+    max-width:380px;
+
+    margin:12px auto 0;
+
+    color:#475569;
+
+    font-size:13px;
+
+    text-align:center;
+}
+
+/* =====================================================
+   EXCEL
+   ===================================================== */
+
+.excel-title{
+    font-size:20px;
+
+    font-weight:bold;
+
+    color:#15803d;
+
+    margin-bottom:15px;
+}
+
+.excel-controls{
+    display:flex;
+
+    gap:10px;
+
+    margin-bottom:15px;
+
+    flex-wrap:wrap;
+}
+
+.excel-button{
+    padding:10px 16px;
+
+    font-size:14px;
+
+    color:white;
+}
+
+.add-row-button{
+    background:#15803d;
+}
+
+.clear-excel-button{
+    background:#dc2626;
+}
+
+.excel-wrapper{
+    width:100%;
+
+    overflow-x:auto;
+
+    border:1px solid #94a3b8;
+
+    border-radius:6px;
+}
+
+.excel-table{
+    width:100%;
+
+    min-width:600px;
+
+    border-collapse:collapse;
+
+    background:white;
+}
+
+.excel-table th{
+    background:#166534;
+
+    color:white;
+
+    padding:9px;
+
+    border:1px solid #14532d;
+
+    font-size:13px;
+
+    text-align:center;
+}
+
+.excel-table td{
+    border:1px solid #cbd5e1;
+
+    padding:0;
+
+    height:38px;
+}
+
+.excel-table td:first-child{
+    text-align:center;
+
+    width:45px;
+
+    background:#f0fdf4;
+
+    color:#166534;
+
+    font-weight:bold;
+}
+
+.excel-table input{
+    width:100%;
+
+    height:36px;
+
+    border:0;
+
+    border-radius:0;
+
+    padding:7px;
+
+    font-size:14px;
+
+    background:white;
+}
+
+.excel-table input:focus{
+    outline:2px solid #22c55e;
+
+    outline-offset:-2px;
+}
+
+.excel-table .qty,
+.excel-table .price{
+    text-align:right;
+}
+
+.excel-table .total{
+    padding:8px;
+
+    text-align:right;
+
+    font-weight:bold;
+
+    color:#166534;
+
+    background:#f0fdf4;
+}
+
+.excel-table tfoot td{
+    background:#dcfce7;
+
+    color:#14532d;
+
+    font-weight:bold;
+
+    padding:10px;
+
+    border:1px solid #86efac;
+}
+
+.excel-table tfoot td:last-child{
+    text-align:right;
+
+    font-family:monospace;
+
+    font-size:15px;
+}
+
+.excel-help{
+    margin-top:10px;
+
+    color:#64748b;
+
+    font-size:12px;
+}
+
+/* =====================================================
+   NOTEPAD
+   ===================================================== */
+
+.notepad-title{
+    font-size:20px;
+
+    font-weight:bold;
+
+    color:#7c3aed;
+
+    margin-bottom:15px;
+}
+
+.notepad{
+    background:#faf5ff;
+
+    border:2px solid #ddd6fe;
+
+    border-radius:10px;
+
+    padding:15px;
+}
+
+.notepad textarea{
+    display:block;
+
+    width:100%;
+
+    min-height:280px;
+
+    resize:vertical;
+
+    padding:15px;
+
+    border:2px solid #c4b5fd;
+
+    border-radius:8px;
+
+    background:#ffffff;
+
+    color:#1e1b4b;
+
+    font-family:Arial,sans-serif;
+
+    font-size:15px;
+
+    line-height:1.6;
+}
+
+.notepad textarea:focus{
+    outline:none;
+
+    border-color:#7c3aed;
+}
+
+.notepad-buttons{
+    display:flex;
+
+    gap:10px;
+
+    flex-wrap:wrap;
+
+    margin-top:12px;
+}
+
+.note-button{
+    padding:10px 16px;
+
+    color:white;
+
+    font-size:14px;
+}
+
+.save-note{
+    background:#7c3aed;
+}
+
+.clear-note{
+    background:#dc2626;
+}
+
+.download-note{
+    background:#2563eb;
+}
+
+.note-status{
+    margin-top:10px;
+
+    font-size:13px;
+
+    color:#64748b;
+}
+
+/* =====================================================
+   MOBILE
+   ===================================================== */
+
+@media(max-width:700px){
+
+    body{
+        padding:10px;
+    }
+
+    .main-card,
+    .simple-calculator,
+    .excel-tool,
+    .notepad-tool{
+        padding:18px;
+    }
+
+    .grid{
+        grid-template-columns:1fr;
+    }
+
+    .calc-button{
+        height:55px;
+    }
+
+    .calc-display{
+        font-size:26px;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- =====================================================
+     PASSWORD LOGIN
+     ===================================================== -->
+
+<div id="loginScreen">
+
+    <div class="login-box">
+
+        <h2>🔐 Private Calculator</h2>
+
+        <p>
+            Enter your password to continue.
+        </p>
+
+        <input
+            type="password"
+            id="accessPassword"
+            placeholder="Enter password"
+            autocomplete="off"
+        >
+
+        <button
+            class="login-button"
+            onclick="unlockApp()">
+
+            🔓 Unlock
+
+        </button>
+
+        <div id="loginMessage"></div>
+
+    </div>
+
+</div>
+
+<!-- =====================================================
+     APP
+     ===================================================== -->
+
+<div
+    id="appContent"
+    style="display:none;">
+
+<div class="container">
+
+<!-- =====================================================
+     CAPITAL & PROFIT
+     ===================================================== -->
+
+<div class="main-card">
+
+<h1>
+📊 Capital & Profit Calculator
+</h1>
+
+<div class="grid">
+
+<div class="card input-card">
+
+<div class="title">
+1. Enter Your Numbers
+</div>
+
+<div class="group">
+
+<label>
+Total Fixed Costs ($)
+</label>
+
+<input
+type="number"
+id="fixedCosts"
+value="5300"
+min="0"
+step="0.01">
+
+</div>
+
+<div class="group">
+
+<label>
+Selling Price per Unit ($)
+</label>
+
+<input
+type="number"
+id="price"
+value="10"
+min="0"
+step="0.01">
+
+</div>
+
+<div class="group">
+
+<label>
+Variable Cost per Unit ($)
+</label>
+
+<input
+type="number"
+id="variableCost"
+value="4"
+min="0"
+step="0.01">
+
+</div>
+
+<div class="group">
+
+<label>
+Target Total Units to Sell
+</label>
+
+<input
+type="number"
+id="units"
+value="1034"
+min="0"
+step="1">
+
+</div>
+
+<div class="group">
+
+<label>
+Break-Even Units
+</label>
+
+<input
+type="text"
+id="breakEven"
+readonly
+value="0 Units">
+
+</div>
+
+<div class="group">
+
+<label>
+Extra Units After Break-Even
+</label>
+
+<input
+type="text"
+id="extraUnits"
+readonly
+value="0 Units">
+
+</div>
+
+<button
+class="main-button"
+id="calculate">
+
+🚀 Start Calculate
+
+</button>
+
+<div
+class="status"
+id="status">
+</div>
+
+</div>
+
+<!-- RESULTS -->
+
+<div class="card">
+
+<div class="title">
+2. Calculation Results
+</div>
+
+<div class="section">
+Capital Required
+</div>
+
+<div class="result capital">
+
+<strong>
+Total Money to Prepare
+</strong>
+
+<span
+class="value"
+id="capital">
+$0.00
+</span>
+
+</div>
+
+<div class="formula">
+Fixed Costs + (Variable Cost × Units)
+</div>
+
+<div class="section">
+Revenue
+</div>
+
+<div class="result">
+
+<span>
+Revenue at Break-Even
+</span>
+
+<span
+class="value"
+id="breakEvenRevenue">
+$0.00
+</span>
+
+</div>
+
+<div class="formula">
+Break-Even Units × Selling Price
+</div>
+
+<div class="result">
+
+<span>
+Revenue from Extra Units
+</span>
+
+<span
+class="value"
+id="extraRevenue">
+$0.00
+</span>
+
+</div>
+
+<div class="formula">
+Extra Units × Selling Price
+</div>
+
+<div class="section">
+Final Results
+</div>
+
+<div class="result revenue">
+
+<strong>
+Total Revenue
+</strong>
+
+<span
+class="value"
+id="totalRevenue">
+$0.00
+</span>
+
+</div>
+
+<div class="formula">
+Selling Price × Total Units
+</div>
+
+<div
+class="result profit"
+id="profitBox">
+
+<strong>
+Final Net Profit
+</strong>
+
+<span
+class="value"
+id="netProfit">
+$0.00
+</span>
+
+</div>
+
+<div class="formula">
+Total Revenue − Variable Costs − Fixed Costs
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- =====================================================
+     SIMPLE CALCULATOR
+     ===================================================== -->
+
+<div class="simple-calculator">
+
+<div class="simple-title">
+🧮 Simple Calculator
+</div>
+
+<div class="calculator">
+
+<input
+type="text"
+id="calcDisplay"
+class="calc-display"
+value="0"
+readonly>
+
+<div class="calc-buttons">
+
+<button
+class="calc-button clear"
+onclick="clearCalc()">
+AC
+</button>
+
+<button
+class="calc-button"
+onclick="deleteLast()">
+DEL
+</button>
+
+<button
+class="calc-button operator"
+onclick="percent()">
+%
+</button>
+
+<button
+class="calc-button operator"
+onclick="operator('/')">
+÷
+</button>
+
+<button
+class="calc-button"
+onclick="numberButton('7')">
+7
+</button>
+
+<button
+class="calc-button"
+onclick="numberButton('8')">
+8
+</button>
+
+<button
+class="calc-button"
+onclick="numberButton('9')">
+9
+</button>
+
+<button
+class="calc-button operator"
+onclick="operator('*')">
+×
+</button>
+
+<button
+class="calc-button"
+onclick="numberButton('4')">
+4
+</button>
+
+<button
+class="calc-button"
+onclick="numberButton('5')">
+5
+</button>
+
+<button
+class="calc-button"
+onclick="numberButton('6')">
+6
+</button>
+
+<button
+class="calc-button operator"
+onclick="operator('-')">
+−
+</button>
+
+<button
+class="calc-button"
+onclick="numberButton('1')">
+1
+</button>
+
+<button
+class="calc-button"
+onclick="numberButton('2')">
+2
+</button>
+
+<button
+class="calc-button"
+onclick="numberButton('3')">
+3
+</button>
+
+<button
+class="calc-button operator"
+onclick="operator('+')">
++
+</button>
+
+<button
+class="calc-button zero"
+onclick="numberButton('0')">
+0
+</button>
+
+<button
+class="calc-button"
+onclick="decimal()">
+.
+</button>
+
+<button
+class="calc-button equal"
+onclick="equal()">
+=
+</button>
+
+</div>
+
+</div>
+
+<div class="calc-note">
+Basic calculator: + − × ÷ %
+</div>
+
+</div>
+
+<!-- =====================================================
+     EXCEL
+     ===================================================== -->
+
+<div class="excel-tool">
+
+<div class="excel-title">
+📗 Small Excel Calculator
+</div>
+
+<div class="excel-controls">
+
+<button
+class="excel-button add-row-button"
+onclick="addExcelRow()">
+
+＋ Add Row
+
+</button>
+
+<button
+class="excel-button clear-excel-button"
+onclick="clearExcel()">
+
+🗑 Clear Excel
+
+</button>
+
+</div>
+
+<div class="excel-wrapper">
+
+<table class="excel-table">
+
+<thead>
+
+<tr>
+
+<th>#</th>
+
+<th>Item</th>
+
+<th>Quantity</th>
+
+<th>Price</th>
+
+<th>Total</th>
+
+</tr>
+
+</thead>
+
+<tbody id="excelBody">
+</tbody>
+
+<tfoot>
+
+<tr>
+
+<td colspan="4">
+GRAND TOTAL
+</td>
+
+<td id="grandTotal">
+$0.00
+</td>
+
+</tr>
+
+</tfoot>
+
+</table>
+
+</div>
+
+<div class="excel-help">
+Enter quantity and price. Row totals and grand total calculate automatically.
+</div>
+
+</div>
+
+<!-- =====================================================
+     NOTEPAD
+     ===================================================== -->
+
+<div class="notepad-tool">
+
+<div class="notepad-title">
+📝 Notepad
+</div>
+
+<div class="notepad">
+
+<textarea
+id="noteArea"
+placeholder="Write your notes here...
+
+You can type:
++ - * / = %
+Numbers
+Letters
+Symbols
+Anything you want."></textarea>
+
+<div class="notepad-buttons">
+
+<button
+class="note-button save-note"
+onclick="saveNote()">
+
+💾 Save Note
+
+</button>
+
+<button
+class="note-button clear-note"
+onclick="clearNote()">
+
+🗑 Clear Note
+
+</button>
+
+<button
+class="note-button download-note"
+onclick="downloadNote()">
+
+⬇ Download TXT
+
+</button>
+
+</div>
+
+<div
+class="note-status"
+id="noteStatus">
+
+Your note is stored in this browser.
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+/* =====================================================
+   🔐 EASY PASSWORD SETTING
+   =====================================================
+
+   CHANGE ONLY THIS LINE.
+
+   Example:
+
+   const ACCESS_PASSWORD = "my123";
+
+*/
+
+const ACCESS_PASSWORD = "123456";
+
+/* =====================================================
+   PASSWORD LOGIN
+   ===================================================== */
+
+function unlockApp(){
+
+    const enteredPassword =
+        document.getElementById(
+            "accessPassword"
+        ).value;
+
+    if(
+        enteredPassword === ACCESS_PASSWORD
+    ){
+
+        document.getElementById(
+            "login
+```
